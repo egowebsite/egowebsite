@@ -41,4 +41,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-}
+
+    public function customers() {
+        return $this->hasMany('App\Models\Customer');
+    }
+
+    public function antennas() {
+        return $this->hasMany('App\Models\Antenna');
+    }
+
+    public function cameras() {
+        return $this->hasMany('App\Models\Camera');
+    }
+
+    public function routers() {
+        return $this->hasMany('App\Models\Router');
+    }
+
+    public function scopeNames($users, $q) {
+        if (trim($q)) {
+            $users->where('names', 'LIKE', "%$q%")
+                  ->orWhere('email', 'LIKE', "%$q%");
+        }
+    }
+
+    }
